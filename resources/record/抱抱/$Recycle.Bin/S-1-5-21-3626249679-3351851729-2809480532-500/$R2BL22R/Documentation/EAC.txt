@@ -1,0 +1,597 @@
+This is the content of the EAC homepage at http://www.exactaudiocopy.de/
+
+
+
+                           Exact Audio Copy
+
+
+Introduction
+
+Exact Audio Copy is a so called audio grabber for audio CDs using standard 
+CD and DVD-ROM drives. The main differences between EAC and most other 
+audio grabbers are :
+
+    * It is free (for non-commercial purposes)
+    * It works with a technology, which reads audio CDs almost perfectly. 
+      If there are any errors that can’t be corrected, it will tell you 
+      on which time position the (possible) distortion occurred, so you 
+      could easily control it with e.g. the media player
+
+With other audio grabbers you usually need to listen to every grabbed wave 
+because they only do jitter correction. Scratched CDs read on CD-ROM drives 
+often produce distortions. But listening to every extracted audio track is 
+a waste of time. Exact Audio Copy conquer these problems by making use of 
+several technologies like multi-reading with verify and AccurateRip. 
+
+
+
+Features of EAC
+
+    * All kinds of CD and DVD drives are supported (including USB, Firewire, 
+      SATA and SCSI drives)
+    * Hidden sector synchronization (jitter correction)
+    * A secure, a fast and a burst extraction methods selectable. Fast 
+      extraction should run at the same speed as other grabbers with jitter 
+      correction, but is probably not exact anymore. Burst mode just grabs 
+      the audio data without any synchronization.
+    * Detection of read errors and complete losses of sync and correction 
+      in the secure mode, as far as possible
+    * Output of time positions of all non-exact corrections and the 
+      possibility to listen to these positions
+    * EAC is able to copy ranges of music data, not only tracks
+    * Automatic speed reduction on read errors and fallback to a higher
+      speed afterwards (depends on the used drive)
+    * Volume normalization of extracted audio to a given percentage
+    * Usage of the Windows Audio Compression manager (ACM Codecs) for direct
+      compression to e.g. MP3 waves
+    * Support for the LAME DLL that is usable like an ACM Codec for on-the-fly
+      MP3 compression
+    * Support of external MP3, WMA, flac and OggVorbis encoders for automatic
+      compression after extraction (supports multi-processor environments)
+    * Batch compression to WAV files and decompression of supported encoded 
+      files to WAV
+    * Compression offset support for exact compression/decompression
+    * Detection of pre-track gaps (positions where negative track times runs 
+      towards 00:00:00)
+    * Detection of silence in pre-track gaps
+    * Automatic creation of CUE sheets for Burnnn, Feurio, Nero or even EAC, 
+      which can include all gaps, indicies, track attributes, UPC and ISRC 
+      and also CD-Text for an exact copy
+    * CD player functionality and prelistening to selected ranges
+    * Automatic detection of drive features, whether a drive has an accurate 
+      stream and/or does caching
+    * Sample offsets for drives with noaccurate streams, including the option 
+      of filling up missing samples with silence
+    * Synchronizing between tracks for non-accurate stream drives
+    * Trackname editing with local/remote CD databases support and more 
+      features like ID3 tagging
+    * Browse and edit local database
+    * Certified Escient ® CDDB(TM)Compatible
+    * Local CDDB support
+    * Record and loop record functions for recording from LP, radio, etc.
+    * Automatic renaming of MP3 files accordingto their ID3 tag
+    * Catalog extraction function (e.g. first 20 seconds of a track)
+    * Multisession (CD-Extra) support
+    * CD-Text support
+    * CD-Write support for some drives (internally and using CDRDAO)
+    * ID3 V1.1 tag editor with drag and drop ability from track listing and 
+      CD database browser
+    * Glitch removal after extraction
+    * Small WAV editor with the following functionality: delete, trim, 
+      normalize, pad, glitch removal, pop detection, interpolation of ranges, 
+      noise reduction, fade in/out, undo (and much more)
+    * Program is free for personal use, so feel free to copy
+
+
+
+Extraction Technology
+
+In secure mode this program either reads every audio sector at least twice 
+or rely on extended error information that some drives are able to return 
+with the audio data. That is one reason why the program is slower than other 
+rippers. But by using this technique non-identical sectors are detected. 
+If an error occurs (read or sync error), the program keeps on reading this 
+sector, until eight of 16 retries are identical, but at maximum one, three 
+or five times (according to the selected error recovery quality) these 
+16 retries are read. So, in the worst case, bad sectors are read up to 
+82 times! But this effort will help the program to obtain the best result 
+by comparing all of the retries.
+If it is not sure that the audio stream is correct (at least that it can 
+not be said at approx. 99.5%) the program will tell the user where the 
+(possible) read error occurred. The program also tries to correct the 
+jitter artefacts that occur on the first block of a track, so that each 
+extraction should be exactly the same. On drives which have the 
+“accurate stream” feature, this is guaranteed. Of course, this technology 
+is a little bit more complex, especially with some CD drives which 
+implements caching. When drives cache audio data, every sector read will 
+be read from the drives cache and is that way always identical. Basically 
+there are several ways to clear the cache. In newer versions it will 
+overread sectors, so that the cache contains sectors from a position 
+elsewhere on the CD.
+EAC has several secure read modes, depending on the features of the drive. 
+One really fast mode (nearly burst mode speed) is for drives with C2 error 
+pointer support, accurate stream and are non-caching. Another mode (up to 
+half of maximum speed) is for non-caching, accurate stream drives (without 
+C2 support). If caching need to be defeated, the secure mode will be much 
+slower, when no read errors occur it will usually something around a third 
+to a fourth of the drives maximum speed.
+This program is really quite slow in secure mode in comparison with other 
+grabbers, but the program checks every sector over and over to get the 
+correct data with high certainty. If you don’t like this feature of EAC 
+and prefer fast copies instead of secure copies, you are able to use the 
+fast or burst extraction option in the drive options menu. But of course 
+in fast mode, the program will no longer be able to find read errors. 
+Only if a read error occurs in a sector synchronization area, a sync error 
+will be displayed. Fast mode is sector synchronized with 2 synchronization 
+blocks of 23 total blocks. Burst copy is even worse, no synchronization is 
+performed at all, enabling extraction at maximum speed of the drive. No 
+error checking of any kind is done. For burst mode there is at least a 
+small indicator of the extracted track quality. If the stream ever breaks, 
+it will tell the user in the status report by showing up suspicous positions.
+Of course this is only an heuristic; there needn’t be any errors on these 
+positions; moreover there could be errors that are not found at all.
+
+
+
+AccurateRip
+
+EAC supports the AccurateRip plugin, which is included in the setup in the 
+newer versions. If you don’t know what this is or want to download this DLL, 
+please visit http://www.AccurateRip.com.
+In order to install the plugin into EAC, you need to drop the AccurateRip.dll
+in the EAC directory (or in a Windows search path for DLLs). EAC should then 
+recognize the plugin automatically. You can easily find out whether EAC has 
+been loaded AccurateRip as the AccurateRip menu entry in EACs “Database” menu 
+will be enabled. Additionally EAC will reserve a squared area for a symbol at 
+the bottom right corner (besides the playback control).
+In order to setup AccurateRip, you usually need some CDs for calibrating the 
+drives, you can read more on that on the AccurateRip homepage. This has to be 
+done only once, afterwards the drive will stay configured. Basically, if you 
+insert a CD that can be used to configure AccurateRip, a dialog pops up and 
+guides you through the setup process. Once a drive is configured, it will 
+automatically use the determined offset and ask the AccurateRip database for 
+result comparison after extracting a CD. Further, on each rip some offset and 
+checksum data is generated, which can be send to the AccurateRip database 
+using the AccurateRip menu interface in EAC. This helps to insert more CDs 
+for the initial calibration and for checksum comparison into the AccurateRip 
+database. Right now there are plenty of CDs in the calibration database, 
+most of the charts and pop/rock classics could be used to configure the 
+drive.
+If a CD is contained in the AccurateRip checksum database, EAC will show an 
+AccurateRip logo in the bottom-right corner of the main window. If that 
+happens, EAC will show after ripping some AccurateRip information in the 
+status dialog. It shows tracks checksums that are extracted from EAC and 
+from the database. Depending on the confidence, you can rely that the track 
+was ripped correct (or not correct). For more information, please have a 
+look on the AccurateRip homepage.
+If you have problems making EAC to run, please check these points :
+
+    * AccurateRip works tracks-based (so the whole track need to be extracted 
+      in order to be checked against the internet database)
+    * If the option “Remove leading and trailing silence” is disabled, 
+      most probably not the full track is extracted and can not be checked 
+      against the AccurateRip database
+    * Better activate “Fill missing samples with silence”, as then the track 
+      has the correct length, this does not harm if overreading is activated
+
+At the moment, the AccurateRip database is already quite populated, but of 
+course you should help to populate it further. After installation and 
+configuration, EAC will automatically create checksum data for the database, 
+which can be transmitted via EACs AccurateRip menu entry.
+AccurateRip will simplify and support exact extraction even more than simply 
+using secure mode!
+
+
+
+Gap Technology
+
+EAC is able to to detect pre-track gaps. These are the pauses between two 
+tracks. Usually they are two seconds long and a CD player will display 
+negative timings during this pause. By using the command 
+“Detect Pre-Track Gaps” it is possible to detect all gap-lengths by 
+reading the sub-channel information. As this information is not stored 
+on the CD directly, EAC has to search for the position where a track ends. 
+This search is usually quite fast, but it still will take on average a 
+second per track.
+You can choose to add the gaps to the previous track (which is how other 
+rippers will usually extract tracks). Otherwise you can choose either to 
+append the gap to the correct track or to leave it out. A benefit of 
+performing the detection and getting the gap times is the possibility 
+to copy a range. That way the correct times will be displayed in the 
+copy range dialog.
+Please note: Because the pre-track gaps are determined by looking up CD 
+positions, it is possible that it will not be 100% accurate. But in most 
+cases it will be correct, the deviance should be lower than 2-3 sectors.
+
+
+
+Automatic Feature Detection Technology
+
+EAC is able to autodetect the drive features. For each drive the program 
+builds a separate drive options page. On this option page the feature 
+autodetection function can be evoked.
+There are three different features that will be checked by EAC: Firstly 
+whether the stream is accurate, secondly whether the drive caches audio 
+data and finally whether the drive supports C2 error pointers.
+Even if the drive has a cache (from the drive specifications), it does not 
+necessarily mean that the drive will use the cache on audio extractions.
+The test for the accurate stream feature should be always correct, but 
+testing for caching will give some problems with drives that extract 
+audio very slowly (below 4x speed). If the test results are uncertain 
+(e.g. on different tests there are two different results), you should 
+assume that the drive does caching. If testing for accurate stream only 
+sometimes gives a negative result, then you could nevertheless try to use 
+the accurate secure mode.
+Having a drive that does cache audio, the appropriate option in the drive 
+options need to be set. This has the consequence that the drive need to 
+flush the cache between read operations. This will take time and slow 
+down the extraction quite much. If you select a drive for extraction 
+better have a look that the drive does not cache audio data.
+The drive configuration wizard has also a build-in drive database which 
+can identify a drives features by the drives name. This should work for 
+all drives which are sold already quite some time. On drive feature 
+autodetection you are able send the results to the EAC database in order 
+to be included in future versions.
+
+
+
+Track Synchronization Technology
+
+Usually CD audio extraction programs will extract one track after another 
+independently . This could cause some problems on CD-ROM drives which have 
+no accurate stream, when using a CD which has no silent areas between songs. 
+When this option is enabled in the EAC options, EAC will synchronize a track 
+with a preceeding track in case that there is no silence at the track 
+junction, so track transitions will be free from jitter artifacts 
+(e.g. on live recordings).
+
+
+
+Offset Technology
+
+“Sample Offset” is another new feature of EAC, it will help to always get 
+the same WAVs compared to a different reader drive and to prevent generation 
+losses that way. Nearly all drives are not able to position their head 
+correctly. That means if the program tells the drive to read block 10000 
+it will perhaps read data somewhere in block 9998 instead. But this is not 
+obvious to the reading program, it will not know if it does really received 
+the data it wanted. Usually the head will be set always to a fixed offset 
+before or after the correct read position. So it is possible to detect this 
+offset once and use it for all CDs coming afterwards. 
+Because it is very difficult to determine the absolute exact offset for each 
+drive, I determined a very probably offset once on my Plextor 14/32. As 
+different designs of CD-R writers usually do not add the same offset on 
+writing, it seems that also big CD manufactures also do not always press the 
+same offset on their CDs. The most common offset of pressed CDs is integrated 
+into the offset detection routines.
+To find out the offset of any other drive, the offset is calculated relative 
+to that absolute offset. To implement an offset detection for any other drive, 
+EAC has an included database with some CDs where the offset is known. These 
+are the reference each CD-ROM drive is compared with. Of course EAC does 
+only include a very limited selection of CDs that can be used to detect this 
+offset, a list can be found in the next menu point. Sometimes there are 
+different versions (releases) of the same CD, but only the same press like 
+the one used for creating the database, the detection of the offset will 
+work. That is why the table shows a code, that is written on the inner ring 
+of the music CD, that should identify the release of a CD. The red codes are 
+from CDs which do not work with this test.
+Drives that have jitter are unable to position their heads correctly. So you 
+should activate the secure or fast extraction method and moreover if your 
+drive does caching, activate the cache flushing. The “Searching Track Start” 
+algorithm tries to find the correct start position even if jitter occurs. 
+But this is not always possible, mainly if the drive jitters too much.
+YOU SHOULD USE THIS TEST ON TWO DIFFERENT CDS AT LEAST! BOTH TESTS SHOULD 
+GIVE BACK THE SAME VALUE!
+The Plextor 14/32 has an offset value of +679 samples, which means that 
+679 samples usually are missing at the end of a WAV file.
+AccurateRip can also be used to determine the drives offset, this is exactly 
+the same offset as detected by EAC. But AccurateRips database is much larger 
+than EACs, so just let AccurateRip detect your offset with one or more audio 
+CDs which it recognize as offset reference.
+Please help to measure more reference CDs. Just send the AccurateRip result 
+after extracting some discs to the AccurateRip database using the menu 
+within EAC.
+
+
+
+Sound Editor
+
+EAC also includes a small wave editor that has some neat functions that 
+could be very handy when handling extracted audio files. As a restriction 
+only CD-compliant uncompressed, 16 bit, 44.1 kHz stereo samples files can 
+be used. Following are more details for some of the functions of the 
+wave editor.
+
+
+
+Glitch Removal
+
+In the wave editor - and also on listening error positions after extraction - 
+it is possible to remove glitches from wave files. But this will work only 
+on uncompressed files in both cases.
+But what are glitches? Glitches are single samples that are completely out 
+of the wave stream. Best to see on the following pictures, which is really 
+an extreme example that probably won’t occur with EACs secure extraction.
+Only these glitches are removed, all other samples will be preserved without 
+any changes. When playing a wave file with glitches it will usually issue 
+high frequent ‘ticks’. Linear interpolation is used in this case for 
+removal of these glitches. Pops and other artifacts are burried deeper in 
+the sample structure and can be removed using different functions. 
+Glitches are created digitally, some single sample values are just wrong, 
+all surrounding samples are most often fine.
+The well-known pops on the other hand occur mainly when having lost sync 
+between audio blocks, where two parts of a wavefile are joined (and in case 
+these parts do not fit together correctly). This does happen also on LP 
+recordings where the head rumble over the groove. But regarding pop detection 
+and removal, please have a look at the other chapters.
+
+
+
+Interpolation
+
+Interpolation will try to find a replacement of the waveform for small 
+duration of audio. The waveform of the selected range will be interpolated 
+from the audio samples left and right to the selected area. Afterwards 
+usually any pops or other artefacts should be removed and not be audible 
+anymore.
+The selected range has to be pretty small, otherwise the menu entry will 
+be disabled. Usually only very small parts should be replaced anyway, as 
+it will get audible if there is a tone changing by interpolation. Around 
+0.1 seconds should be maximum for interpolation.
+Make sure that there are no errors left or right of the replacement region 
+or new errors will be inserted into the result. This function is often used 
+to remove detected pops.
+On the other hand linear Interpolation will create a linear connection 
+between the points of the wave in the selected range. This should only 
+be used for very very small ranges, as it doesn’t produce correct sounding 
+replacements, but it could be used to connect a jump in the waveform 
+more gently. Just try it out, if it doesn’t bring the expected results, 
+you are able to un-do the operation and do something different or user 
+other parameters for the functions.
+
+
+
+Automatic Detection Of Pops
+
+This function tries to find pops in a selected range automatically. 
+This operation is slow, so you shouldn’t select the complete file, but 
+a smaller area in which you already have verified that there are pops in 
+there. Depending on the parameters, it will find some pops where none 
+exist, and it may also fail to find some other real existant pops.
+After EAC ends the search it will display a dialog with all of the found 
+positions. With a double-click on such a position, it will select the 
+probably defective range. The dialog doesn’t need to be closed, it can be 
+kept open during work on such a defective position (e.g. by interpolation). 
+Afterwards just go to the next pop by clicking on a different error position.
+  
+  
+
+Noise Reduction
+
+Most real-world recordings using a microphone will have more or less 
+broadband noise in the audio file. It is usually extremly difficult to 
+remove the noise without creating artefacts within the music. EAC is 
+capable of reducing noise with great effeciency, even creating better 
+sounding results than some commercial applications.
+To reduce noise from a wave file it is necessary to start with a noise 
+profile. This could either be loaded from disk (saved from a previous 
+session) or created from a selected range in the audio. This range for 
+profile generation should be at least something around half a second. 
+The range used for the creation of the profile should consist of pure 
+noise, no other sound or music should be found in the selected range. 
+This is important as otherwise the noise reduction will filter some 
+frequency bands which contain a wanted signal.
+After having created or loaded a noise profile you can use it on ranges 
+of any size (usually the complete file) to reduce the detected kind 
+of noise. You can select a reduction level for the noise, 6 dB will 
+half the volume of the noise, 12 dB will already quarter the noise level. 
+When setting a too high level, the wanted signal can get distorted, 
+so be cautious with that setting. Sometimes it can be better to do 
+the lighter filter twice instead of doing a hard filter.
+You can also store a file of the remnants of the filtering. This should 
+contain only the noise and nothing of the wanted signal ideally. Of 
+course this is not always possible, but try to reduce the signal in the 
+noise file as much as possible. EAC will write this file to harddisc, you 
+can play it back using a media player, or open it also in a wave editor.
+  
+
+
+Spectral Display
+
+If the spectral mode is selected in the menu, it takes some seconds to 
+calculate a frequency spectrum for the displayed range. The Y axis will 
+be used for different frequencies, at the bottom the low frequencies are 
+displayed and at the top the high frequencies (up to 22.5 kHz which is 
+the maximum frequency you can archive with a 44.1 kHz sample rate). 
+Further the color of a point describe the amplitude of each frequency band. 
+If there are discontinuties in this view, there is sometimes something 
+wrong in the wave.
+This kind of display has some advantages. E.g. pops are much more easily 
+found, as an example see the next picture.
+In this example have a look at the mid of the shown range. There are some 
+red spikes which show a distortion in the audio for a very short period 
+of time. Before and afterwards sound is all quite the same, only that single 
+position stands out. It is more than probable that this defect is audible. 
+Play that range and listen carefully to determine how bad it really is.
+The yellow selected range is a special selection mode on the spectral 
+display. In sample selection mode, only one sample is selected, but in 
+spectral display this one sample has effects to quite a range of the 
+spectral display. This is why the selection cursor is at least a specific 
+size. If you learned how to use it correctly, it can be of great help 
+finding these positions in the sample display.
+
+
+
+Smooth Samples
+
+This function will smooth the undulation a sound wave. This is usefull for 
+LP recordings or other pops/clicks. The amplitude is smoothed, which means 
+that high frequent parts are filtered out. So basically this function will 
+perform a kind of low-pass filtering. It won’t cut-off frequencies above a 
+special limit, but it will lower the volume according to its frequency. The 
+higher the frequency, the more it get filtered.
+This function can also be of help in removing pops and clicks. Just call 
+this function as often as needed for the same range, but better keep the 
+used range as small as possible.
+  
+  
+  
+Tips & Tricks
+
+    * Better use AccurateRip for offset detection and an additional 
+      verification of the secure rips, read more on this in Basic 
+      Technology - AccurateRip.
+    * In the audio editor keep the right mouse button pressed and select 
+      a range on the time bar or on the sample value bar in order to zoom 
+      a range on the time or sample value bar.
+      Also keep the left mouse button pressed in order to move the time 
+      bar or the sample bar in each direction.
+      A double click on the right mouse button will zoom out the specific bar.
+    * Some drives have problems reading extended TOC informations from CDs. 
+      There are two command line options to help on problems when starting 
+      EAC or inserting a CD. You could use
+          o nocdtext
+          o nomultisession
+      It is possible to combine any of the command line options.
+      EAC will crash on some systems. Therefore I implemented some command 
+      line options that will disable some functions that could crash the 
+      system. The options are
+          o nostopcommand
+          o notestunit
+          o nospeedsel
+          o noreadsub
+      e.g. EAC -noreadsub -notestunit
+      You should have CDs already inserted in ALL your drives when starting 
+      EAC. On some systems it will still crash if no CD is present when 
+      EAC is running.
+      Furthermore, you might want to try to disable the flag ‘DMA Transfer’ 
+      from system properties, hardware manager for each CD-ROM drive in the 
+      system (which will make extractions much more slower though).
+    * Many guides regarding the setup and use of EAC can be found on the 
+      Links section of this page
+    * Some older CD-ROM drives will perform better on DAE when updating 
+      the firmware.
+    * The WAV comparison feature could also be used to determine a combined 
+      reader/writer offset for exact audio duplication. This offset can then 
+      be used for each pair of reader/writer.
+      To determine the offset, you need an already copied audio CD where the 
+      WAV files were extracted with 0 offset.
+      Now extract the same range (somewhere in the middle of a track) with 
+      your prefered audio drive of the original and the copied CD.
+      When extracted both files call compare WAV files and have a look at 
+      the number of the first missing/extraneous samples. This number will 
+      be the combined reader/writer offset. To determine whether the number 
+      should be positive or negative, you have to look if the samples are 
+      missing or are extraneous. If the original wav file has extraneous 
+      samples at the beginning, the offset should be negative otherwise 
+      positive (if the file of the copied CD has extraneous samples the 
+      offset should otherwise be positive, etc.)
+      To check the correct offset, you could enter the offset value in the 
+      options and extract again the same range from the copied CD and 
+      compare it again with the range of the original CD, both should then 
+      be the same…
+    * With the WAV editor it is also possible to compare the actual file with 
+      another WAV file on the hard disk. This has the advantage that the 
+      differing positions could automatically be selected by double-clicking 
+      the position in the list box. This will make correction of badly read 
+      tracks very easy.
+    * On some systems EAC will not find a matching read mode. In that case 
+      select the correct read command in the drive options menu manually. 
+      If your drive seem to make a bus reset (blinking LEDs for some seconds) 
+      or still does not find a matching read mode, please send an email!
+    * If a CD has songs from various artists, you could select the option 
+      “Various Artists” on the main screen. This will enable splitted track 
+      names. The first part of each track name is the artist name and the 
+      second part is the song title. Both parts are separated by the 
+      character “/”. For example: Metallica / Nothing Else Matters
+    * freedb servers require an email address in the freedb options, you 
+      can also enter this information in the configuration wizard. If a 
+      server times out or does not respond, you can select another CDDB 
+      server from the list supplied in the list box. From time to time 
+      you should update the server list by pressing the button below 
+      that list box.
+    * If your computer doesn’t show any drives or shows an access violation 
+      after starting EAC, it is often the ASPI interface. There are many ASPI 
+      versions available which will work (more or less reliably) with EAC. 
+      Changing the interface setting could also help. To install a new ASPI, 
+      you should choose one from Nero® which can be download for free 
+      from Ahead®.
+      If this still does not help, also try the Native SCSI setting in the 
+      interface options.
+    * You can open two instances of EAC, enabling you to read audio data from 
+      two different CD-ROM drives simultaneously. But make sure that you start 
+      both instances from different directories, otherwise some unanticipated 
+      side-effects could occur.
+    * To exactly position the sliders in selecting a range to copy, you could 
+      move the sliders secondswise by clicking left or right side of the 
+      sliders (same as pressing the <page up> and <page down> keys) and 
+      blockwise by pressing the <cursor left> and <cursor right> keys.
+    * If your drive caches audio data, you have to use the appropriate 
+      extraction mode, or if you still use the old secure mode, you have to 
+      enable the option ‘disable CD-ROM drive cache’. If not, the result 
+      will be the same as using “Fast Extraction” (having no error detection).
+
+
+
+Documentation
+
+This is only a pre-release, so no work on the user documentation has been 
+done yet. A complete user guide and documentation will be done as soon as 
+I find some time. At least video tutorials for the first steps in EAC and 
+for the audio editor are planned.
+If you encounter any bugs, please report them by mail or email. But when 
+reporting, please don’t forget these important information:
+
+    * Operating system
+    * Hardware configuration (CPU, memory, CD-ROM drive, etc.)
+    * All events on extraction, drive features
+    * Bugs that have occurred
+
+Please do not send simple questions like “How could I save my wave file 
+with 22.050 Hz, 8 bit, mono ?”. Only reports and questions that might be 
+interesting for the development of EAC will be answered. If you need 
+other support, please subscribe to the mailing list or post a question 
+in the forum.
+  
+
+
+Registration
+
+This program is free for private use! This means, using the program will cost 
+you no money, as long as you only use it for non-commercial purposes. No 
+registration is necessary in this case, just use the version from the download 
+page, it is already the full version.
+But I would greatly appreciate any donations made by you voluntarily to help 
+me improving EAC by using the donations for compiler updates etc. Please note 
+that cashing a check is very expensive (around US-$ 7) and so please don’t 
+send checks if you want to donate anything, many thanks!
+I have now subscribed to PayPal, below is a donate button if you want to send 
+something from your PayPal account or want to use your credit card. Many 
+thanks for all your support!
+It is also possible to send me something from my Amazon Wishlist. The site 
+is Amazon Germany, but it should be quite easy to understand the major 
+buttons as the layout is the same worldwide.
+Please tell me what you like (or dislike) by sending me an email.
+Please Note : I will no longer answer such emails or support requests. There 
+are far too many of them in order to answer all of them. Please use the 
+mailing list or the forum instead! Sorry for the inconvenience!
+
+
+
+Legal Limitations
+
+The full license agreement text is shown on installing or can be found in the 
+Legal.rtf file that resides in the EAC directory.
+You are free to copy the program for private purposes, but it is 
+not allowed to
+
+    * Make changes to the executable and distribute it
+    * Disassemble or decompile the executable
+    * Spread it together with other programs on CD-ROM, web sites or any 
+      other media without my permission. It is allowed to put it up on free 
+      FTP sites or make links directly to my homepage. Of course you can pass 
+      a copy of it to your family and friends.
+
+For commercial use a special license is needed, please contact me for details. 
+It is commercial use when any result of EAC (of the extraction engine, wave 
+editor, writing engine, etc.) is used for any commercial purpose.
